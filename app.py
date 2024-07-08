@@ -16,7 +16,6 @@ api_key = os.getenv("GOOGLE_API_KEY")
 print("API Key:", api_key)
 
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
-print('hello:',genai.configure(api_key=os.getenv("GOOGLE_API_KEY")))
 
 def get_gemni_response(input,pdf_content,prompt):
     model=genai.GenerativeModel('gemini-pro-vision')
@@ -29,13 +28,10 @@ def input_pdf_setup(upload_file):
     if upload_file:
         image=pdf2image.convert_from_bytes(upload_file.read())
         first_image=image[0]
-        print(first_image)
 
         img_byte_arr=io.BytesIO()
         first_image.save(img_byte_arr,format='JPEG')
         img_byte_arr=img_byte_arr.getvalue()
-    
-        print('imag_byt_arr:',img_byte_arr)
 
 
         pdf_part={
@@ -97,10 +93,20 @@ st.markdown('---')
 
 
 input_prompt1 = """
- You are an experienced Technical Human Resource Manager,your task is to review the provided resume against the job description. 
+ You are an experienced Technical Human Resource Manager with Tech Experience in The Field of any one job role from  Data Science,Full Stack, Web Development , Big data engineering ,
+ Devops , Data Analyst, your task is to review the provided resume against the job description for these Profiles. 
   Please share your professional evaluation on whether the candidate's profile aligns with the role. 
  Highlight the strengths and weaknesses of the applicant in relation to the specified job requirements.
 """
+
+
+input_prompt3 = """
+You are an skilled ATS (Applicant Tracking System) scanner with a deep understanding of any one job role data science, Webdevelpment,Bigdata Engineering,Devops,Data Analyst and
+ deep ATS functionality, 
+your task is to evaluate the resume against the provided job description. give me the percentage of match if the resume matches
+the job description. First the output should come as percentage and then keywords missing and last final thoughts.
+"""
+
 
 
 if submit1:
@@ -109,3 +115,16 @@ if submit1:
         response=get_gemni_response(input_text,pdf_content,input_prompt1)
         st.subheader('The Response is:')
         st.write(response)
+    else:
+        st.write('Please upload the file')
+
+if submit3:
+    if upload_file is not None:
+        pdf_content=input_pdf_setup(upload_file)
+        response=get_gemni_response(input_text,pdf_content,input_prompt3)
+        st.subheader('The Response is:')
+        st.write(response)
+    
+    else:
+        st.write('Please upload the file')
+
