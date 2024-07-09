@@ -104,7 +104,10 @@ input_prompt3 = """
 You are an skilled ATS (Applicant Tracking System) scanner with a deep understanding of any one job role data science, Webdevelpment,Bigdata Engineering,Devops,Data Analyst and
  deep ATS functionality, 
 your task is to evaluate the resume against the provided job description. give me the percentage of match if the resume matches
-the job description. First the output should come as percentage and then keywords missing and last final thoughts.
+the job description.Matches Percentage is calculated based on extracted skills and experience from the CV with those required in the JD.
+The platform matches extracted skills and experience from the CV with those required in the JD.
+First the output should come as percentage and then keywords missing and last final thoughts.
+and how you calculate the match percentage ,explain in another paragraph
 """
 
 
