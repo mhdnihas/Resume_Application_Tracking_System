@@ -13,13 +13,14 @@ import base64
 load_dotenv()
 
 api_key = os.getenv("GOOGLE_API_KEY")
-print("API Key:", api_key)
+genai.configure(api_key=api_key)
 
-genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
+#genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
 def get_gemni_response(input,pdf_content,prompt):
     model=genai.GenerativeModel('gemini-pro-vision')
     response=model.generate_content([input,pdf_content,prompt])
+    print(response)
     return response.text
 
 
@@ -46,7 +47,7 @@ def input_pdf_setup(upload_file):
 
 st.set_page_config(page_title="Optimize Your Resume for ATS")
 st.header("Application Tracking System")
-input_text=st.text_area('job description:',key=input)
+input_text=st.text_area('job description:',key='input_text')
 upload_file=st.file_uploader('upload your file(pdf)',type=["pdf"])
 
 if upload_file is not None:
@@ -101,13 +102,33 @@ input_prompt1 = """
 
 
 input_prompt3 = """
-You are an skilled ATS (Applicant Tracking System) scanner with a deep understanding of any one job role data science, Webdevelpment,Bigdata Engineering,Devops,Data Analyst and
- deep ATS functionality, 
-your task is to evaluate the resume against the provided job description. give me the percentage of match if the resume matches
-the job description.Matches Percentage is calculated based on extracted skills and experience from the CV with those required in the JD.
-The platform matches extracted skills and experience from the CV with those required in the JD.
-First the output should come as percentage and then keywords missing and last final thoughts.
-and how you calculate the match percentage ,explain in another paragraph
+You are an advanced ATS (Applicant Tracking System) scanner with deep expertise in job roles like Data Science, Web Development, Big Data Engineering, 
+DevOps, and Data Analysis. Your task is to evaluate a resume against a provided job description. Follow these steps:
+
+1.Extract Skills and Experience:
+Identify and list the key skills and relevant experiences mentioned in both the job description (JD) and the resume (CV).
+
+2.Calculate Match Percentage:
+Compare the extracted skills and experience from the resume with those required in the JD.
+Calculate the percentage of match based on the proportion of required skills and experiences present in the resume.
+
+3.Identify Missing Keywords:
+List the keywords (skills, qualifications, experiences) mentioned in the JD but not found in the resume.
+
+4.Provide Final Thoughts:
+Offer feedback on the overall suitability of the resume for the job, highlighting strengths and areas for improvement.
+Output Structure:
+
+Match Percentage:
+
+Example: 85%
+Missing Keywords:
+
+Example: ["Docker", "Kubernetes", "CI/CD", "Python"]
+Final Thoughts: 
+
+Example: "The resume matches well with the job description, especially in areas like cloud infrastructure and programming. However, 
+it lacks some critical DevOps skills like Docker and Kubernetes, which are crucial for the role."
 """
 
 
